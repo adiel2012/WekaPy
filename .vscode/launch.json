@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["LoadDataset iris.dat | Display"]
+            "args": ["LoadDataset iris.dat | StratifiedKFold n_splits=5 random_state=None shuffle=False | SaveTrainTestDatasets iris"]
         },
         {
             "name": "Python: Attach",

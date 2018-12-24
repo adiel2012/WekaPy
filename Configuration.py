@@ -1,6 +1,10 @@
-import core.filters.others.LoadDataset as filters_others_LoadDataset
-import core.filters.others.Display as filters_others_Display
+import core.filters.unsupervised.instance.LoadDataset as filters_unsupervised_instance_LoadDataset
+import core.filters.unsupervised.instance.Display as filters_unsupervised_instance_Display
+import core.filters.supervised.instance.StratifiedKFold as filters_supervised_instance_StratifiedKFold
 
+
+import core.filters.unsupervised.instance.SaveDataset as filters_unsupervised_instance_SaveDataset
+import core.filters.unsupervised.instance.SaveTrainTestDatasets as filters_unsupervised_instance_SaveTrainTestDatasets
 
 
 class Configuration:
@@ -9,8 +13,11 @@ class Configuration:
     def getRegisteredFilters():
         result = {}
         #others
-        attachFilter(result, filters_others_LoadDataset.LoadDataset())
-        attachFilter(result, filters_others_Display.Display())
+        attachFilter(result, filters_unsupervised_instance_LoadDataset.LoadDataset())
+        attachFilter(result, filters_unsupervised_instance_Display.Display())
+        attachFilter(result, filters_supervised_instance_StratifiedKFold.StratifiedKFold())        
+        attachFilter(result, filters_unsupervised_instance_SaveDataset.SaveDataset())        
+        attachFilter(result, filters_unsupervised_instance_SaveTrainTestDatasets.SaveTrainTestDatasets())
 
         return result
 

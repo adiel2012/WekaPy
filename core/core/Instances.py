@@ -26,11 +26,16 @@ class Instances:
     def getClasses(self):
         return self.classes
 
+    def getClassesIndex(self):
+        return map(lambda r: r.index(1), self.classes)
+
     def __repr__(self):
         num_instances = self.getNumInstances()
         num_attributes = self.getNumAttributes()
         num_classes = self.getNumClasses()
-        res = "Number of Classes: " + str(num_classes) +'\n'
+
+        res = "\n----Print instances---------------------------------------------\n"
+        res += "\nNumber of Classes: " + str(num_classes) +'\n'
         res += "Number of Attributes: " + str(num_attributes) +'\n'
         res +=  "Number of Instances: " + str(num_instances) +'\n'
 
