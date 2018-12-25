@@ -3,7 +3,7 @@ import numpy as np
 from sklearn.model_selection import StratifiedKFold as sciStratifiedKFold
 from core.core  import Instances 
 
-#LoadDataset iris.dat | StratifiedKFold n_splits=5 random_state=None shuffle=False | Display
+#LoadDataset ./classification/iris.dat | StratifiedKFold n_splits=5 random_state=None shuffle=False | SaveTrainTestDatasets ./classification/iris_version3 | Display
 
 def codify(length, index):
     res = [0  for i in range(length)]

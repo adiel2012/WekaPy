@@ -14,9 +14,9 @@ class LoadDataset(IFilter.IFilter):
         return "LoadDataset"    
     #return an array of instances or only one instance
     def execute(self, pipeddata, arrOptions):
-        dataset_name = arrOptions[0]
+        dataset_name = (arrOptions[0].split('/') )
         my_path = os.path.abspath(os.path.dirname(__file__))
-        path = os.path.join(my_path, "..","..", "..", "..", "datasets", "classification", dataset_name)
+        path = os.path.join(my_path, "..","..", "..", "..", "datasets", *dataset_name)
 
         f = open(path, "r")
         # use readlines to read all lines in the file
