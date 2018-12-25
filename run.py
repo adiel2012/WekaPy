@@ -19,10 +19,10 @@ m_filters = conf.Configuration.getRegisteredFilters()
 cmds = sys.argv[1].split('|')
 
 result = None
+
 for cmd  in cmds:
     cmd = clean(cmd)
     splitted = cmd.split(" ")
-
     if(len(splitted) == 0):
         print 'empty name'
         sys.exit()
@@ -35,3 +35,5 @@ for cmd  in cmds:
     filter = m_filters[name]
 
     result = filter.execute(result, splitted[1:])
+
+

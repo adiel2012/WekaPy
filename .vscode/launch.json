@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["LoadTrainTestDatasets ./classification/iris_version3 | Display"]
+            "args": ["LoadDataset ./timeserie/daily-minimum-temperatures-in-me.dat | ConvertDataSetToRegressionDS K=4 | Display"]
         },
         {
             "name": "Python: Attach",
