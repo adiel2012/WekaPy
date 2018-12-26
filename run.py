@@ -3,6 +3,7 @@ import re
 import inspect
 import core
 import Configuration as conf
+import core.core.interfaces.IFork as CFork 
 
 num_params = len(sys.argv)
 
@@ -18,22 +19,36 @@ def clean(str):
 m_filters = conf.Configuration.getRegisteredFilters()
 cmds = sys.argv[1].split('|')
 
-result = None
-
-for cmd  in cmds:
-    cmd = clean(cmd)
-    splitted = cmd.split(" ")
-    if(len(splitted) == 0):
-        print 'empty name'
-        sys.exit()
-
-    name = splitted[0]
-    if((name in m_filters) == False):
-        print 'filter '+ name + ' not present'
-        sys.exit()
-
-    filter = m_filters[name]
-
-    result = filter.execute(result, splitted[1:])
 
 
+
+def runCMDs(cmds, result = None):
+    
+    for i in range(len(cmds)):
+        cmd = cmds[i]
+        cmd = clean(cmd)
+        splitted = cmd.split(" ")
+        if(len(splitted) == 0):
+            print 'empty name'
+            sys.exit()
+
+        name = splitted[0]
+        if((name in m_filters) == False):
+            print 'filter '+ name + ' not present'
+            sys.exit()
+
+        filter = m_filters[name]
+        if(isinstance(filter, CFork.IFork)):
+            
+            for params in filter.generate(splitted[1:]):
+                nexts = cmds[i+1:]
+                cpy = map(lambda v: v, nexts)                
+                strparams = ' ' + params
+                cpy[0] += strparams
+                runCMDs(cpy, result)
+            return
+        else:
+            result = filter.execute(result, splitted[1:])
+
+
+runCMDs(cmds)

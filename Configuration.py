@@ -7,6 +7,10 @@ import core.filters.unsupervised.instance.SaveTrainTestDatasets as filters_unsup
 import core.filters.unsupervised.instance.LoadTrainTestDatasets as filters_unsupervised_instance_LoadTrainTestDatasets
 import core.filters.unsupervised.instance.ConvertDataSetToRegressionDS as filters_unsupervised_instance_ConvertDataSetToRegressionDS
 
+
+import core.filters.others.CrossValidatorIFork as CCrossValidatorIFork
+
+
 class Configuration:
 
     @staticmethod
@@ -20,6 +24,7 @@ class Configuration:
         attachFilter(result, filters_unsupervised_instance_SaveTrainTestDatasets.SaveTrainTestDatasets())        
         attachFilter(result, filters_unsupervised_instance_LoadTrainTestDatasets.LoadTrainTestDatasets())
         attachFilter(result, filters_unsupervised_instance_ConvertDataSetToRegressionDS.ConvertDataSetToRegressionDS())
+        attachFilter(result, CCrossValidatorIFork.CrossValidatorIFork())
         
 
         return result

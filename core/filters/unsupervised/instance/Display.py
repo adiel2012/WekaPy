@@ -9,4 +9,5 @@ class Display(IFilter.IFilter):
     #return an array of instances or only one instance
     def execute(self, pipeddata, arrOptions):
         print pipeddata
+        print arrOptions
         return ""
