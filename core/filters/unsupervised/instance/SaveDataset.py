@@ -13,7 +13,7 @@ class SaveDataset(IFilter.IFilter):
         return "SaveDataset"    
 
     #return an array of instances or only one instance
-    def execute(self, pipeddata, arrOptions):
+    def execute(self, pipeddata = None, arrOptions=None):
         relative = arrOptions[0]
         ds = pipeddata
         num_classes = ds.getNumClasses()
@@ -53,4 +53,5 @@ class SaveDataset(IFilter.IFilter):
         f.writelines(lines)
         f.close()
 
-        
+    def newInstance(self):
+        return SaveDataset() 

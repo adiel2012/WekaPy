@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": ["LoadDataset ./timeserie/daily-minimum-temperatures-in-me.dat | CrossValidatorIFork p1={a,b,c} p2={d,e} | Display"]
+            "args": ["LoadDataset path=./timeserie/daily-minimum-temperatures-in-me.dat | CrossValidatorIFork p1={a,b,c} p2={d,e} | Display"]
         },
         {
             "name": "Python: Attach",

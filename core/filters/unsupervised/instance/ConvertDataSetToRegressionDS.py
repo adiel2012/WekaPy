@@ -9,8 +9,12 @@ class ConvertDataSetToRegressionDS(IFilter.IFilter):
 #LoadDataset ./timeserie/daily-minimum-temperatures-in-me.dat | ConvertDataSetToRegressionDS K=4 | Display
     def getName(self):
         return "ConvertDataSetToRegressionDS"    
+
+
+    def newInstance(self):
+        return ConvertDataSetToRegressionDS() 
     #return an array of instances or only one instance
-    def execute(self, pipeddata, arrOptions):
+    def execute(self, pipeddata = None, arrOptions = None):
         ds = pipeddata
 
         parsed = self.parseOptionsToDictionary(arrOptions)
@@ -36,5 +40,6 @@ class ConvertDataSetToRegressionDS(IFilter.IFilter):
             values.append(line)
             classes.append(class_line)
 
-
-        return Instances.Instances(values, classes)
+        if(self.m_next_filter):
+            self.m_next_filter.execute(Instances.Instances(values, classes))
+        #return Instances.Instances(values, classes)

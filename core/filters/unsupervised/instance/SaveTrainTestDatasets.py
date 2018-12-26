@@ -13,12 +13,15 @@ def parseOptions(arrOptions):
 class SaveTrainTestDatasets(IFilter.IFilter):
 
     def getName(self):
-        return "SaveTrainTestDatasets"    
+        return "SaveTrainTestDatasets"   
+
+    def newInstance(self):
+        return SaveTrainTestDatasets()  
 
     #return an array of instances or only one instance
-    def execute(self, pipeddata, arrOptions):
+    def execute(self, pipeddata=None, arrOptions=None):
 
-        ds_name = arrOptions[0]
+        ds_name = self.merge_two_dicts(self.arrOptions, arrOptions)['path']
         datasets = pipeddata
         K = len(datasets)/2
 
@@ -34,3 +37,6 @@ class SaveTrainTestDatasets(IFilter.IFilter):
             sds = SaveDataset.SaveDataset()
             sds.execute(train,['./'+ds_name+'/train_'+str(i)+'.dat'])
             sds.execute(test,['./'+ds_name+'/test_'+str(i)+'.dat'])
+
+        if(self.m_next_filter):
+            self.m_next_filter.execute(pipeddata) 

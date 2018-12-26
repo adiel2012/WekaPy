@@ -3,36 +3,39 @@ import numpy as np
 from sklearn.model_selection import StratifiedKFold as sciStratifiedKFold
 from core.core  import Instances 
 
-#LoadDataset ./classification/iris.dat | StratifiedKFold n_splits=5 random_state=None shuffle=False | SaveTrainTestDatasets ./classification/iris_version3 | Display
+#LoadDataset path=./classification/iris.dat | StratifiedKFold n_splits=5 random_state=None shuffle=False | SaveTrainTestDatasets path=./classification/iris_version3 | Display
 
 def codify(length, index):
     res = [0  for i in range(length)]
     res[index] = 1
     return res
 
-def parseOptions(arrOptions):
-    n_splits=2
-    random_state=None
-    shuffle=False
-    for op in arrOptions:
-        v = op.split('=')
-        if(v[0] == 'n_splits'):
-           n_splits = int(v[1]) 
-        if(v[0] == 'shuffle'):
-           shuffle = v[1] == 'True'
-
-    return [n_splits, random_state, shuffle]
 
 class StratifiedKFold(IFilter.IFilter):
 
     def getName(self):
         return "StratifiedKFold"    
 
-    #return an array of instances or only one instance
-    def execute(self, pipeddata, arrOptions):
+    def newInstance(self):
+        return StratifiedKFold() 
 
-        #n_splits=2, random_state=None, shuffle=False
-        [n_splits, random_state, shuffle] = parseOptions(arrOptions)
+    #return an array of instances or only one instance
+    def execute(self, pipeddata=None, arrOptions=None):
+
+        merged_dict = self.merge_two_dicts(self.arrOptions, arrOptions)
+        n_splits=2
+        random_state=None
+        shuffle=False
+
+        if('n_splits' in merged_dict):
+            n_splits = int(merged_dict['n_splits'])
+
+        if('random_state' in merged_dict and merged_dict['random_state'] != 'None'):
+            random_state = int(merged_dict['random_state'])
+        
+        if('shuffle' in merged_dict):
+            shuffle = merged_dict['shuffle'] == 'True'
+
         ds = pipeddata
         X = np.array(ds.getValues())
         y = np.array(ds.getClassesIndex())
@@ -50,4 +53,6 @@ class StratifiedKFold(IFilter.IFilter):
             result.append(Instances.Instances(X_test, y_test_coded))
 
 
-        return result
+        if(self.m_next_filter):
+            self.m_next_filter.execute(result)
+        #return result

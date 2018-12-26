@@ -14,7 +14,7 @@ class LoadTrainTestDatasets(IFilter.IFilter):
         return "LoadTrainTestDatasets"    
 
     #return an array of instances or only one instance
-    def execute(self, pipeddata, arrOptions):
+    def execute(self, pipeddata=None, arrOptions=None):
         #  LoadTrainTestDatasets ./classification/iris_version3 | Display
         folder_name = ('./'+arrOptions[0]).split('/')        
 
@@ -36,8 +36,11 @@ class LoadTrainTestDatasets(IFilter.IFilter):
             result.append(instances)
 
 
-        return result
+        if(self.m_next_filter):
+            self.m_next_filter.execute(result) 
+        #return result
             
-
+    def newInstance(self):
+        return LoadTrainTestDatasets() 
 
 

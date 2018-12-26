@@ -10,11 +10,15 @@ class LoadDataset(IFilter.IFilter):
     def __init__(self):
         pass
 
+    def newInstance(self):
+        return LoadDataset() 
+
     def getName(self):
         return "LoadDataset"    
     #return an array of instances or only one instance
-    def execute(self, pipeddata, arrOptions):
-        dataset_name = (arrOptions[0].split('/') )
+    def execute(self, pipeddata=None, arrOptions=None):
+        
+        dataset_name = (self.merge_two_dicts(arrOptions, self.arrOptions )['path'].split('/') )
         my_path = os.path.abspath(os.path.dirname(__file__))
         path = os.path.join(my_path, "..","..", "..", "..", "datasets", *dataset_name)
 
@@ -42,5 +46,5 @@ class LoadDataset(IFilter.IFilter):
                 values[ri-1][ind] = float(vals[ind])
             for ind in range(num_classes):
                 classes[ri-1][ind] = float(vals[num_attributes+ind])
-
-        return Instances.Instances(values, classes)
+        if(self.m_next_filter):
+            self.m_next_filter.execute(Instances.Instances(values, classes))  

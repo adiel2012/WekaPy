@@ -20,35 +20,38 @@ m_filters = conf.Configuration.getRegisteredFilters()
 cmds = sys.argv[1].split('|')
 
 
+def ParseOptions(options):
+    res = {}
+    for i in options:
+        v = i.split('=')
+        if(len(v) > 1):
+            res[v[0]] = v[1]
+    return res
 
+first = None
+prev_filter = None
+for i in range(len(cmds)):
+    cmd = cmds[i]
+    cmd = clean(cmd)
+    splitted = cmd.split(" ")
+    if(len(splitted) == 0):
+        print 'empty name'
+        sys.exit()
 
-def runCMDs(cmds, result = None):
+    name = splitted[0]
+    if((name in m_filters) == False):
+        print 'filter '+ name + ' not present'
+        sys.exit()
+
+    curr_filter = m_filters[name].newInstance().SetOptions(ParseOptions(splitted[1:]))
+
+    if(prev_filter):
+        prev_filter.SetNextFilter(curr_filter)
+    else:
+        first = curr_filter
+    prev_filter = curr_filter
     
-    for i in range(len(cmds)):
-        cmd = cmds[i]
-        cmd = clean(cmd)
-        splitted = cmd.split(" ")
-        if(len(splitted) == 0):
-            print 'empty name'
-            sys.exit()
-
-        name = splitted[0]
-        if((name in m_filters) == False):
-            print 'filter '+ name + ' not present'
-            sys.exit()
-
-        filter = m_filters[name]
-        if(isinstance(filter, CFork.IFork)):
-            
-            for params in filter.generate(splitted[1:]):
-                nexts = cmds[i+1:]
-                cpy = map(lambda v: v, nexts)                
-                strparams = ' ' + params
-                cpy[0] += strparams
-                runCMDs(cpy, result)
-            return
-        else:
-            result = filter.execute(result, splitted[1:])
 
 
-runCMDs(cmds)
+if(first):
+    first.execute()
