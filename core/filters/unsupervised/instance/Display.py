@@ -11,5 +11,5 @@ class Display(IFilter.IFilter):
         return "Display"    
     #return an array of instances or only one instance
     def execute(self, pipeddata = None, arrOptions = None):
-        #print pipeddata
+        print pipeddata
         print arrOptions

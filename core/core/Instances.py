@@ -4,6 +4,19 @@ class Instances:
         self.values = values
         self.classes = classes
         self.num_classes = len(classes[0])
+        self.name = ''
+
+    def copy(self):
+        result = Instances( map(lambda x: map(lambda p: p, x), self.values), map(lambda x: map(lambda p: p, x), self.classes) )
+        result.setName(self.getName())
+        return result
+
+    def getName(self):
+        return self.name
+
+    def setName(self, value):
+        self.name = value
+        return self
 
     def getNumInstances(self):
         return len(self.values)
@@ -35,17 +48,18 @@ class Instances:
         num_classes = self.getNumClasses()
 
         res = "\n----Print instances---------------------------------------------\n"
+        res += 'Dataset Name: '+self.getName()+'\n'
         res += "\nNumber of Classes: " + str(num_classes) +'\n'
         res += "Number of Attributes: " + str(num_attributes) +'\n'
         res +=  "Number of Instances: " + str(num_instances) +'\n'
 
-        for i in range(num_instances):
-            for j in range(num_attributes):
-                print self.values[i][j], ',',
-            print ' --> ',
-            for j in range(num_classes):
-                print self.classes[i][j], ',',
-            print ''
+#        for i in range(num_instances):
+#            for j in range(num_attributes):
+#                print self.values[i][j], ',',
+#            print ' --> ',
+#            for j in range(num_classes):
+#                print self.classes[i][j], ',',
+#            print ''
 
 
         return res

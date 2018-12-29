@@ -26,7 +26,7 @@ class SaveTrainTestDatasets(IFilter.IFilter):
         K = len(datasets)/2
 
         my_path = os.path.abspath(os.path.dirname(__file__))
-        directory = os.path.join(my_path, "..","..", "..", "..", "datasets", ds_name)
+        directory = os.path.join(my_path, "..","..", "..", "..", "datasets", *ds_name.split('/'))
         if(os.path.exists(directory)):
             shutil.rmtree(directory)
 
@@ -35,8 +35,8 @@ class SaveTrainTestDatasets(IFilter.IFilter):
             train = datasets[i*2]
             test = datasets[i*2+1]
             sds = SaveDataset.SaveDataset()
-            sds.execute(train,['./'+ds_name+'/train_'+str(i)+'.dat'])
-            sds.execute(test,['./'+ds_name+'/test_'+str(i)+'.dat'])
+            sds.execute(train,[ds_name+'/'+train.getName()+'.dat'])
+            sds.execute(test,[ds_name+'/'+test.getName()+'.dat'])
 
         if(self.m_next_filter):
             self.m_next_filter.execute(pipeddata) 

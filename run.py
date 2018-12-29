@@ -55,3 +55,17 @@ for i in range(len(cmds)):
 
 if(first):
     first.execute()
+
+
+
+# PIPEDDATA DEBERIA PASARSE DICTIONARY COMO PYPEDDATA
+
+#load dataset
+#kfold
+#split into pairs train test    # CADA DATASET DEBERIA TENER NOMBRE UNICO QUE AYUDE AL CONSOLIDADOR, CADA PASO DEBERIA VARIAR EL NOMBRE DEL DATASET
+#CrossvalidateFork   entrada: X  salida X
+#train classifier    entrada: par de datasets(train, test)   salida: evaluaciones(train, test) del classifier entrenado   
+#metricaAll         entrada: salida del train classifier   salida: dictionary the metrics
+#metricsConsolidator				salida: texto    CUANDO CONSOLIDAR METRICAS Y COMO
+                                # IDEA 1 (EN EL DESTRUCTOR) USAR EL PYPED DATA PARA ALMACENAR EL CURRENT TRAIN-DATASET, CURRENT TEST DATASET, Y EL NOMBRE DE CADA DATASET
+#

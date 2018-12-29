@@ -22,7 +22,7 @@ class SaveDataset(IFilter.IFilter):
 
         parts = relative.split('/')
 
-        #LoadDataset ./classification/iris.dat | SaveDataset ./classification/iris2.dat
+        #LoadDataset path=./classification/iris.dat | SaveDataset path=./classification/iris2.dat
         my_path = os.path.abspath(os.path.dirname(__file__))
         path = os.path.join(my_path, "..","..", "..", "..", "datasets", *parts)
 

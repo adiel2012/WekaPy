@@ -7,8 +7,7 @@ def clean(str):
     return str.strip().replace(" ", "")
 
 class LoadDataset(IFilter.IFilter):
-    def __init__(self):
-        pass
+    
 
     def newInstance(self):
         return LoadDataset() 
@@ -18,7 +17,8 @@ class LoadDataset(IFilter.IFilter):
     #return an array of instances or only one instance
     def execute(self, pipeddata=None, arrOptions=None):
         
-        dataset_name = (self.merge_two_dicts(arrOptions, self.arrOptions )['path'].split('/') )
+        apath = self.merge_two_dicts(arrOptions, self.arrOptions )['path']
+        dataset_name = apath.split('/') 
         my_path = os.path.abspath(os.path.dirname(__file__))
         path = os.path.join(my_path, "..","..", "..", "..", "datasets", *dataset_name)
 
@@ -47,4 +47,6 @@ class LoadDataset(IFilter.IFilter):
             for ind in range(num_classes):
                 classes[ri-1][ind] = float(vals[num_attributes+ind])
         if(self.m_next_filter):
-            self.m_next_filter.execute(Instances.Instances(values, classes))  
+            aname = dataset_name[len(dataset_name)-1]
+            aname = aname[0:aname.index('.')]
+            self.m_next_filter.execute(Instances.Instances(values, classes).setName(aname))  

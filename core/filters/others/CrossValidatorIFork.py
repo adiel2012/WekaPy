@@ -38,7 +38,14 @@ class CrossValidatorIFork(IFilter.IFilter, IFork.IFork):
     def execute(self, pipeddata=None, arrOptions=None):
         if(self.m_next_filter):            
             for i in self.generate( self.merge_two_dicts(self.arrOptions, arrOptions) ):
-                self.m_next_filter.execute(pipeddata, i) 
+                tds = pipeddata.copy()
+                str_add = ''
+                for key in i:
+                    value = i[key]
+                    str_add += '_' + key + '_'+value                
+                tds.setName(tds.getName() + str_add)
+
+                self.m_next_filter.execute(tds, i) 
 
     
 

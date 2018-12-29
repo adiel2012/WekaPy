@@ -43,14 +43,20 @@ class StratifiedKFold(IFilter.IFilter):
         result = []
         num_classes = ds.getNumClasses()
 
+        i = 0
         for train_index, test_index in skf.split(X, y):
             #print("TRAIN:", train_index, "TEST:", test_index)
             X_train, X_test = X[train_index], X[test_index]
             y_train, y_test = y[train_index], y[test_index]
             y_train_coded = map(lambda i: codify(num_classes, i) , y_train)
-            result.append(Instances.Instances(X_train,  y_train_coded))
+            dst = Instances.Instances(X_train,  y_train_coded)
+            dst.setName(ds.getName()+'_train_'+str(i))
+            result.append(dst)
             y_test_coded = map(lambda i: codify(num_classes, i) , y_test)
-            result.append(Instances.Instances(X_test, y_test_coded))
+            dst = Instances.Instances(X_test, y_test_coded)
+            dst.setName(ds.getName()+'_test_'+str(i))
+            result.append(dst)
+            i += 1
 
 
         if(self.m_next_filter):
